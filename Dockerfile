@@ -1,9 +1,10 @@
 FROM ruby:2.3.3
 MAINTAINER blueplanet
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        nodejs \
-        mysql-client \
-    && rm -rf /var/lib/apt/lists/* \
+RUN \
+  apt-get update && \
+  curl -sL https://deb.nodesource.com/setup_7.x | bash - && \
+  apt-get install -y nodejs --no-install-recommends
 
-RUN gem update bundler
+ARG BUNDLE_JOBS=4
+RUN gem update --system && gem install bundler
